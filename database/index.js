@@ -1,11 +1,11 @@
-const {sequelize} = require('./startDb')
-
-const testConnection = async () => {
-  await sequelize.authenticate().catch( (err) => {
-    console.error('Db connection error', err)
-  })
-}
+const {testConnection} = require('./startDb')
+const User = require('./model/user')
+const Post = require('./model/post')
+const Comment = require('./model/comment')
 
 module.exports = {
-  testConnection
+  testConnection,
+  User,
+  Post,
+  Comment
 }

@@ -1,29 +1,28 @@
 const Sequelize = require('sequelize')
-const {sequelize} = require('./startDb')
+const Model = Sequelize.Model
+const { sequelize } = require('../startDb')
 
-const post = sequelize.define ( 'post', {
-    title: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    text: {
-        type: Sequelize.TEXT,
-        allowNull: false
-    },
-    imageUrl: {
-        type: Sequelize.TEXT
-    },
-    tags: {
-        type: Sequelize.ARRAY
-    },
-    date: {
-        type: Sequelize.DATE,
-        allowNull: false
-    }
+class Post extends Model { }
+Post.init({
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  text: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
+  imageUrl: {
+    type: Sequelize.TEXT
+  },
+  tags: {
+    type: Sequelize.JSON
+  }
 },
-{
-  sequelize,
-  modelName: 'post'
-})
+  {
+    sequelize,
+    modelName: 'post'
+  })
 
-module.exports = post
+Post.sync()
+module.exports = Post
