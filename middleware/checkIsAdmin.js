@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const User = require('../database/model/user')
+const { User } = require('../database')
 
 const checkIsAdmin = async (req, res, next) => {
   try {
@@ -13,7 +13,7 @@ const checkIsAdmin = async (req, res, next) => {
     }
   } catch (error) {
     console.error(error)
-    res.status(500).json({message: 'Something went wrong', error: error})
+    res.status(500).json({ message: 'Something went wrong', error: error })
   }
 
 }

@@ -1,20 +1,9 @@
-const User = require('../database/model/user')
-const Post = require('../database/model/post')
+const { User } = require('../../database')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs')
 const secret = process.env.SECRET
 
 module.exports = {
-  createPost: async function (req, res) {
-    try {
-      const post = Post.build(req.body)
-      const newPost = await post.save()
-      res.status(201).json({ 'message': 'New post created', data: newPost })
-    } catch (error) {
-      console.error(error)
-      res.status(500).json({ message: 'Something went wrong', error: error })
-    }
-  },
   registerUser: async function (req, res) {
     try {
       const hashedPwd = bcrypt.hashSync(req.body.password, 8)

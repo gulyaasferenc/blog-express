@@ -11,7 +11,7 @@ User.init({
   isAdmin: { type: Sequelize.BOOLEAN, defaultValue: false }
 },
   { sequelize, modelName: 'user' })
-
+  
 User.sync()
 
 module.exports = User
