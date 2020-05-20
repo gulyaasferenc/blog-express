@@ -32,7 +32,7 @@ module.exports = {
         delete userToSend.password
         res.status(200).json({ auth: true, token: token, user: userToSend })
       } else {
-        res.status(401).send({ auth: false, token: null })
+        res.status(401).send({ auth: false, token: null, error: 'Wrong Authentication Data' })
       }
     } catch (error) {
       console.error(error)
