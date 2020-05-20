@@ -28,7 +28,9 @@ module.exports = {
       }
       if (bcrypt.compareSync(req.body.password, user.password)) {
         const token = jwt.sign({ id: user.id }, secret, { expiresIn: 2592000000 })
-        res.status(200).json({ auth: true, token: token })
+        let userToSend = JSON.parse(JSON.stringify(user))
+        delete userToSend.password
+        res.status(200).json({ auth: true, token: token, user: userToSend })
       } else {
         res.status(401).send({ auth: false, token: null })
       }
