@@ -11,11 +11,21 @@ module.exports = {
         ],
         offset: Number(pageNum) * 10,
         limit: 10,
-        include: [{model: Comment, as: 'comments'}]
+        include: [{ model: Comment, as: 'comments' }]
       })
       res.status(200).json({ message: 'got posts', data: posts })
     } catch (error) {
       console.error(error)
+      res.status(500).json({ message: 'Something went wrong', error: error })
+    }
+  },
+  getOnePost: async function (req, res) {
+    try {
+      const id = req.params.id
+      const myPost = await Post.findByPk(id)
+      res.status(200).json({ myPost })
+    } catch (err) {
+      console.log(error)
       res.status(500).json({ message: 'Something went wrong', error: error })
     }
   },

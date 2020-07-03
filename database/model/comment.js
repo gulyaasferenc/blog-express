@@ -12,8 +12,6 @@ Comment.init({
 },
   { sequelize, modelName: 'comment' })
 
-Comment.belongsTo(User)
-Comment.belongsTo(Post)
 Post.hasMany(Comment)
 User.hasMany(Comment)
 

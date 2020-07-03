@@ -13,7 +13,7 @@ module.exports = {
       })
       await user.save()
       const token = jwt.sign({ id: user.id }, secret, { expiresIn: 2592000000 })
-      res.status(200).json({ auth: true, token: token })
+      res.status(200).json({ auth: true }).token(token)
 
     } catch (error) {
       console.error(error)
@@ -30,7 +30,7 @@ module.exports = {
         const token = jwt.sign({ id: user.id }, secret, { expiresIn: 2592000000 })
         let userToSend = JSON.parse(JSON.stringify(user))
         delete userToSend.password
-        res.status(200).json({ auth: true, token: token, user: userToSend })
+        res.status(200)/*.json({ auth: true, user: userToSend })*/.cookie('token', token)
       } else {
         res.status(401).send({ auth: false, token: null, error: 'Wrong Authentication Data' })
       }
