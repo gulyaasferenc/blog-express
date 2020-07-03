@@ -21,6 +21,7 @@ module.exports = {
   },
   getOnePost: async function (req, res) {
     try {
+      console.log(req.headers)
       const id = req.params.id
       const myPost = await Post.findByPk(id)
       res.status(200).json({ myPost })

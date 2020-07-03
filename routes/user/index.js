@@ -30,7 +30,7 @@ module.exports = {
         const token = jwt.sign({ id: user.id }, secret, { expiresIn: 2592000000 })
         let userToSend = JSON.parse(JSON.stringify(user))
         delete userToSend.password
-        res.status(200)/*.json({ auth: true, user: userToSend })*/.cookie('token', token)
+        res/*.status(200).json({ auth: true, user: userToSend })*/.cookie('token', token, {domain: 'localhost', httpOnly: true}).status(200).json({message: 'cookie sent', auth: true, user: userToSend})
       } else {
         res.status(401).send({ auth: false, token: null, error: 'Wrong Authentication Data' })
       }
