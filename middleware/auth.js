@@ -3,7 +3,7 @@ const secret = process.env.SECRET
 
 const verifyToken = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(' ')[1]
+    const token = req.headers.cookie.split(';').filter(x => x.indexOf('token=') > -1)[0].split('=')[1]
   if (!token)
     return res.status(403).send({ auth: false, message: 'No token provided.' })
 

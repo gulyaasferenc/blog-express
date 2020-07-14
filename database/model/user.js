@@ -12,6 +12,6 @@ User.init({
 },
   { sequelize, modelName: 'user' })
   
-User.sync()
+User.sync({force: true})
 
 module.exports = User

@@ -1,18 +1,43 @@
-const { Post } = require('../../database')
-const { Comment } = require('../../database')
+const { Post, Comment } = require('../../database')
+const Sequelize = require('sequelize')
+
+const Op = Sequelize.Op
 
 module.exports = {
   getPosts: async function (req, res) {
     try {
       const pageNum = req.params.pageNum
-      const posts = await Post.findAll({
-        order: [
-          ['createdAt', 'DESC']
-        ],
-        offset: Number(pageNum) * 10,
-        limit: 10,
-        include: [{ model: Comment, as: 'comments' }]
-      })
+      let filter = null
+      if (req.params.filter === 'all') {
+        filter = {
+          order: [
+            ['createdAt', 'DESC']
+          ],
+          offset: Number(pageNum) * 10,
+          limit: 10,
+          include: [{ model: Comment, as: 'comments' }]
+        }
+      } else {
+        filter = {
+          where: {
+            [Op.or]: [
+              {
+                title: {[Op.iLike]: `%${req.params.filter}%`}
+              },
+              {
+                text: {[Op.iLike]: `%${req.params.filter}%`}
+              }
+            ]
+          },
+          order: [
+            ['createdAt', 'DESC']
+          ],
+          offset: Number(pageNum) * 10,
+          limit: 10,
+          include: [{ model: Comment, as: 'comments' }]
+        }
+      }
+      const posts = await Post.findAll(filter)
       res.status(200).json({ message: 'got posts', data: posts })
     } catch (error) {
       console.error(error)
