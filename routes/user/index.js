@@ -14,8 +14,8 @@ module.exports = {
       await user.save()
       const token = jwt.sign({ id: user.id }, secret, { expiresIn: 2592000000 })
       let userToSend = JSON.parse(JSON.stringify(user))
-        delete userToSend.password
-      res.cookie('token', token, {domain: 'localhost', httpOnly: true}).cookie('isAuth', 'true', {domain: 'localhost'}).status(200).json({message: 'cookie sent', auth: true, user: userToSend})
+      delete userToSend.password
+      res.cookie('token', token, { domain: 'localhost', httpOnly: true }).cookie('isAuth', 'true', { domain: 'localhost' }).status(200).json({ message: 'cookie sent', auth: true, user: userToSend })
 
     } catch (error) {
       console.error(error)
@@ -35,7 +35,7 @@ module.exports = {
         const token = jwt.sign({ id: user.id }, secret, { expiresIn: 2592000000 })
         let userToSend = JSON.parse(JSON.stringify(user))
         delete userToSend.password
-        res.cookie('token', token, {domain: 'localhost', httpOnly: true}).cookie('isAuth', 'true', {domain: 'localhost'}).status(200).json({message: 'cookie sent', auth: true, user: userToSend})
+        res.cookie('token', token, { domain: 'localhost', httpOnly: true }).cookie('isAuth', 'true', { domain: 'localhost' }).status(200).json({ message: 'cookie sent', auth: true, user: userToSend })
       } else {
         res.status(401).send({ auth: false, token: null, error: 'Wrong Authentication Data' })
       }
@@ -45,7 +45,7 @@ module.exports = {
     }
   },
   logOut: function (req, res) {
-    res.clearCookie('token', {domain: 'localhost', httpOnly: true}).clearCookie('isAuth', {domain: 'localhost'}).status(200).json({message: 'cookies deleted', auth: false, user: null})
+    res.clearCookie('token', { domain: 'localhost', httpOnly: true }).clearCookie('isAuth', { domain: 'localhost' }).status(200).json({ message: 'cookies deleted', auth: false, user: null })
   },
   changePassword: async function (req, res) {
     try {
