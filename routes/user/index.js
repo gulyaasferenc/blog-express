@@ -13,10 +13,15 @@ module.exports = {
       })
       await user.save()
       const token = jwt.sign({ id: user.id }, secret, { expiresIn: 2592000000 })
-      res.status(200).json({ auth: true }).token(token)
+      let userToSend = JSON.parse(JSON.stringify(user))
+        delete userToSend.password
+      res.cookie('token', token, {domain: 'localhost', httpOnly: true}).cookie('isAuth', 'true', {domain: 'localhost'}).status(200).json({message: 'cookie sent', auth: true, user: userToSend})
 
     } catch (error) {
       console.error(error)
+      if (error.name === 'SequelizeValidationError') {
+        error = error.errors[0].message
+      }
       res.status(500).json({ message: 'Something went wrong', error: error })
     }
   },
