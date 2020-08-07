@@ -3,7 +3,7 @@ const { User } = require('../database')
 
 const checkIsAdmin = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(' ')[1]
+    const token = req.headers.cookie.split(';').filter(x => x.indexOf('token=') > -1)[0].split('=')[1]
     const userId = jwt.decode(token).id
     const user = await User.findOne({ where: { id: userId } })
     if (!user.isAdmin) {
@@ -13,7 +13,7 @@ const checkIsAdmin = async (req, res, next) => {
     }
   } catch (error) {
     console.error(error)
-    res.status(500).json({ message: 'Something went wrong', error: error })
+    res.status(500).json({ message: 'Something went wrong', error: error.message })
   }
 
 }

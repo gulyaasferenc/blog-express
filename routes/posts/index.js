@@ -22,10 +22,10 @@ module.exports = {
           where: {
             [Op.or]: [
               {
-                title: {[Op.iLike]: `%${req.params.filter}%`}
+                title: { [Op.iLike]: `%${req.params.filter}%` }
               },
               {
-                text: {[Op.iLike]: `%${req.params.filter}%`}
+                text: { [Op.iLike]: `%${req.params.filter}%` }
               }
             ]
           },
@@ -60,6 +60,19 @@ module.exports = {
       const post = Post.build(req.body)
       const newPost = await post.save()
       res.status(201).json({ 'message': 'New post created', data: newPost })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ message: 'Something went wrong', error: error })
+    }
+  },
+  modifyPost: async function (req, res) {
+    try {
+      await Post.update(req.body, {
+        where: {
+          id: req.body.id
+        }
+      })
+      res.status(201).json({ 'message': 'Post modified', data: req.body.id })
     } catch (error) {
       console.error(error)
       res.status(500).json({ message: 'Something went wrong', error: error })
